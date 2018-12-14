@@ -100,7 +100,7 @@ void draw_date(ArduiPi_OLED &display, int start_x, int start_y, int sz)
   struct tm *now = localtime(&t);
   const size_t STR_SZ = 32;
   char str[STR_SZ];
-  strftime(str, STR_SZ, "%d-%m-%Y", now);
+  strftime(str, STR_SZ, "%Y-%m-%d", now);
 
   display.setCursor(start_x, start_y);
   display.setTextSize(sz);
@@ -242,7 +242,7 @@ bool init_display(ArduiPi_OLED &display, int oled, unsigned char i2c_addr,
   }
 
   display.begin();
-  
+
   set_rotation(display, rotate180);
   display.setTextWrap(false);
 

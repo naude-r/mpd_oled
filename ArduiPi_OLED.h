@@ -4,26 +4,26 @@ This is a library for our Monochrome OLEDs based on SSD1306 drivers
   Pick one up today in the adafruit shop!
   ------> http://www.adafruit.com/category/63_98
 
-These displays use SPI to communicate, 4 or 5 pins are required to  
+These displays use SPI to communicate, 4 or 5 pins are required to
 interface
 
-Adafruit invests time and resources providing this open source code, 
-please support Adafruit and open-source hardware by purchasing 
+Adafruit invests time and resources providing this open source code,
+please support Adafruit and open-source hardware by purchasing
 products from Adafruit!
 
-Written by Limor Fried/Ladyada  for Adafruit Industries.  
+Written by Limor Fried/Ladyada  for Adafruit Industries.
 BSD license, check license.txt for more information
 All text above, and the splash screen must be included in any redistribution
 
 02/18/2013  Charles-Henri Hallard (http://hallard.me)
             Modified for compiling and use on Raspberry ArduiPi Board
-            LCD size and connection are now passed as arguments on 
+            LCD size and connection are now passed as arguments on
             the command line (no more #define on compilation needed)
             ArduiPi project documentation http://hallard.me/arduipi
-            
+
 07/26/2013  Charles-Henri Hallard (http://hallard.me)
             modified name for generic library using different OLED type
- 
+
 *********************************************************************/
 
 #ifndef _ArduiPi_OLED_H
@@ -144,20 +144,20 @@ All text above, and the splash screen must be included in any redistribution
 
 
 
-class ArduiPi_OLED : public Adafruit_GFX 
+class ArduiPi_OLED : public Adafruit_GFX
 {
  public:
   ArduiPi_OLED();
 
   // SPI Init
   boolean init(int8_t DC, int8_t RST, int8_t CS, uint8_t OLED_TYPE);
-  
+
   // I2C Init
   boolean init(int8_t RST, uint8_t OLED_TYPE, int8_t i2c_addr=0);
 
   boolean oled_is_spi_proto(uint8_t OLED_TYPE); /* to know protocol before init */
   boolean select_oled(uint8_t OLED_TYPE, int8_t i2c_addr=0) ;
-  
+
   void begin(void);
   void close(void);
 
@@ -165,18 +165,19 @@ class ArduiPi_OLED : public Adafruit_GFX
   void sendCommand(uint8_t c0, uint8_t c1);
   void sendCommand(uint8_t c0, uint8_t c1, uint8_t c2);
   void sendData(uint8_t c);
+  void sendData(char* c, uint32_t len);
 
   void clearDisplay(void);
   void setGrayLevel(uint8_t grayLevel);
   void setBrightness(uint8_t Brightness);
   void invertDisplay(uint8_t i);
   void display();
-  
+
   void setSeedTextXY(unsigned char Row, unsigned char Column);
   void putSeedChar(char C);
   void putSeedString(const char *String);
 
- 
+
   int16_t getOledWidth(void);
   int16_t getOledHeight(void);
 
@@ -198,7 +199,7 @@ class ArduiPi_OLED : public Adafruit_GFX
   uint8_t vcc_type;
   uint8_t oled_type;
   uint8_t grayH, grayL;
-  
+
   inline boolean isI2C(void);
   inline boolean isSPI(void);
   void fastSPIwrite(uint8_t c);

@@ -118,7 +118,7 @@ public:
       cava_source("/tmp/mpd_oled_fifo"),
       rotate180(false),
       i2c_addr(0),
-      reset_gpio(25),
+      reset_gpio(RPI_V2_GPIO_P1_22),
       // Default for source of status values depends on the player
       source(
 #ifdef VOLUMIO
@@ -300,13 +300,14 @@ void OledOpts::process_command_line(int argc, char **argv)
 
   if (oled == 0)
     error("must specify a 128x64 oled", 'o');
-  
+
   const int min_spect_width = bars + (bars-1)*gap; // assume bar width = 1
   if (min_spect_width > SPECT_WIDTH)
      error(msg_str(
 "spectrum graph width is %d: to display %d bars with a gap of %d\n"
 "requires a minimum width of %d. Reduce the number of bars and/or the gap\n",
          SPECT_WIDTH, bars, gap, min_spect_width));
+
 }
 
 string print_config_file(int bars, int framerate,
@@ -422,14 +423,14 @@ int start_idle_loop(ArduiPi_OLED &display, FILE *fifo_file,
   const long select_usec = update_sec * 1001000;    // slightly longer, but still less than framerate
   int fifo_fd = fileno(fifo_file);
   Timer timer;
-  
+
   display_info disp_info;
   disp_info.scroll = opts.scroll;
   disp_info.clock_format = opts.clock_format;
   disp_info.spect.init(opts.bars, opts.gap);
   disp_info.status.set_source(opts.source);
   disp_info.status.init();
- 
+
   // Update MPD info in separate thread to avoid stuttering in the spectrum
   // animation.
   pthread_t update_info_thread;
